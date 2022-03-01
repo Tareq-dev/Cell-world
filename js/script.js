@@ -46,57 +46,54 @@ const explorerSinglePhoneData =(id)=>{
           .then(data => displayPhoneDetail(data.data))
 }
 const displayPhoneDetail =(phone)=>{
-     console.log(phone);
+     // console.log(phone);
      const phoneDetail = document.getElementById('phoneDetail');
      phoneDetail.innerText ='';
      const mainFeatures = phone.mainFeatures;
      const sensors = phone.mainFeatures.sensors;
-     // console.log(sensors)
+     // console.log(sensors.join(' , '));
      const others = phone.others;
 
      const div = document.createElement('div');
      div.innerHTML= `
      <h2>${phone.name}</h2> 
      <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-4 d-flex justify-content-center">
                <img class="rounded-3 w-75" src="${phone.image}" alt="">
           </div>
           <div class="col-md-8">
-               <div>
                     <span><strong>Brand :</strong> ${phone.brand}</span>
-               </div>
-               <div>
-               <ul class="list-unstyled mt-2 p-3 m-5">
+                    <ul class="list-unstyled mt-2">
                     <li class="row border border-dark mb-1 rounded-1">
-                         <div class="col-1 bg-light p-2 d-flex align-items-center justify-content-center">
+                         <div class="col-2 col-md-1 bg-light p-2 d-flex align-items-center justify-content-center">
                          <i class="fas fa-microchip fs-3"></i>
                          </div>
-                         <div class="col-11 bg-info d-flex align-items-center">
+                         <div class="col-10 col-md-11 bg-info d-flex align-items-center">
                          <span class="ms-2"><strong>Chipset :</strong> ${mainFeatures.chipSet}</span>
                          </div>
                     </li>
      
                     <li class="row border border-dark mb-1 rounded-1">
-                         <div class="col-1 bg-light p-2 d-flex align-items-center justify-content-center">
+                         <div class="col-2 col-md-1 bg-light p-2 d-flex align-items-center justify-content-center">
                               <i class="fas fa-memory fs-3"></i>
                          </div>
-                         <div class="col-11 bg-info d-flex align-items-center"><span class="ms-2"><strong>Memory :</strong> ${mainFeatures.memory}</span>
+                         <div class="col-10 col-md-11 bg-info d-flex align-items-center"><span class="ms-2"><strong>Memory :</strong> ${mainFeatures.memory}</span>
                          </div>
                     </li>
      
                     <li class="row border border-dark mb-1 rounded-1">
-                         <div class="col-1 bg-light p-2 d-flex align-items-center justify-content-center">
+                         <div class="col-2 col-md-1 bg-light p-2 d-flex align-items-center justify-content-center">
                               <i class="fas fa-hdd fs-3"></i>
                          </div>
-                         <div class="col-11 bg-info d-flex align-items-center"><span class="ms-2"><strong>Storage :</strong> ${mainFeatures.storage}</span>
+                         <div class="col-10 col-md-11 bg-info d-flex align-items-center"><span class="ms-2"><strong>Storage :</strong> ${mainFeatures.storage}</span>
                          </div>
                     </li>
      
                     <li class="row border border-dark mb-1 rounded-1">
-                         <div class="col-1 bg-light p-2 d-flex align-items-center justify-content-center">
+                         <div class="col-2 col-md-1 bg-light p-2 d-flex align-items-center justify-content-center">
                               <i class="fas fa-tv fs-3"></i>
                          </div>
-                         <div class="col-11 bg-info d-flex align-items-center"><span class="ms-2"><strong>Display :</strong> ${mainFeatures.displaySize}</span>
+                         <div class="col-10 col-md-11 bg-info d-flex align-items-center"><span class="ms-2"><strong>Display :</strong> ${mainFeatures.displaySize}</span>
                          </div>
                     </li>
      
@@ -105,62 +102,47 @@ const displayPhoneDetail =(phone)=>{
                               <strong>Realese Date :</strong>
                          </div>
                          <div class="col-9 bg-info d-flex align-items-center"><span class="ms-2"> ${phone.releaseDate}</span>
-                         </div>
+                    </div>
                     </li>
                </ul>
           </div>
 
-          </div>
-     </div>
-     <div>
-          <h4>Sensor</h4>
-          <table>
-               <tr>
-                    <td class="border border-dark">
-                         trk
-                    </td>
-                    <td class="border border-dark">
-                         trk
-                    </td><td class="border border-dark">
-                         trk
-                    </td><td class="border border-dark">
-                         trk
-                    </td><td class="border border-dark">
-                         trk
-                    </td><td class="border border-dark">
-                         trk
-                    </td>
-               </tr>
-          </table>
-     </div>
-    <div>
-     <h4>Others Features</h4>
-     <table class="table">
-          <thead>
-            <tr>
-              <th>Bluethooth</th>
-              <th>GPS</th>
-              <th>NFC</th>
-              <th>Radio</th>
-              <th>USB</th>
-              <th>WLAN</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>John</td>
-              <td>Doe</td>
-              <td>3</td>
-              <td>4</td>
-              <td>john@example.com</td>
-              <td>john@example.com</td>
-            </tr>
-          </tbody>
+               <div class="border p-1 row mx-auto mt-5">
+                    <h4 class="col-4 col-md-2 d-flex align-items-center">Sensor</h4>
+                    <p class="col-8 col-md-10 d-flex align-items-center mt-1">${sensors.join(' , ')}</p>
+               </div>
+
+     <div class="mt-3">
+          <h4>Others Features</h4>
+     <table style="width:90%" class="table table-striped mx-auto">
+         <tr>
+              <th>Features Name</th>
+              <th>Feature</th>
+         </tr>
+         <tr>
+              <td>Bluetooth</td>
+              <td>${others.Bluetooth}</td>
+         </tr>
+         <tr>
+              <td>GPS</td>
+              <td>${others.GPS}</td>
+         </tr>
+         <tr>
+              <td>NFC</td>
+              <td>${others.NFC}</td>
+         </tr>
+         <tr>
+              <td>USB</td>
+              <td>${others.USB}</td>
+         </tr>
+         <tr>
+              <td>WLAN</td>
+              <td>${others.Radio}</td>
+         </tr>
         </table>
     </div>
      `
      phoneDetail.appendChild(div);
-//      const other = phone.others;
-     // console.log(mainFeatures);
-//      console.log(other);
+     console.log(others)
+
 }
