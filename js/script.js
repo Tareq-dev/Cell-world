@@ -2,13 +2,37 @@
 // Search Field 
 
 const searchText = () =>{
-     const searchText = document.getElementById('searchText').value;
-     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
+     document.getElementById('spinner').style.display ='block';
+     let searchText = document.getElementById('searchText').value;
+     
+
+     //error code 
+
+     if (searchText == "") {
+          document.getElementById("error").style.display ='block';
+          document.getElementById("error").innerHTML =
+              "Please write a phone name.";
+      }
+     
+     let url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
      fetch(url)
      .then(res => res.json())
-     .then(data => displaySearchResults(data.data));
-}
-searchText();
+     .then(data => {
+          if(data.status == false){
+               document.getElementById('spinner').style.display ='block';
+               document.getElementById("error").style.display ='block';
+               document.getElementById("error").innerHTML =
+              "Please write a phone name.";
+          }else{
+               displaySearchResults(data.data);
+             const spinner = document.getElementById('spinner')
+
+               spinner.style.display ='none';
+          }
+     });
+     
+     document.getElementById('searchText').value = '';
+};
 
 //Display Search Results
 
@@ -22,7 +46,7 @@ const displaySearchResults =(phones)=>{
           <div class="col">
                <div class="card h-100">
                    <div class="d-flex justify-content-center">
-                   <img style="width:70%;" src="${phone.image}" class="card-img-top p-3" alt="...">
+                         <img style="width:70%;" src="${phone.image}" class="card-img-top p-3" alt="...">
                    </div>
                    <div class="card-body">
                      <h5 class="card-title">${phone.phone_name}</h5>
@@ -35,8 +59,29 @@ const displaySearchResults =(phones)=>{
           </div>
           `
           resultDetails.appendChild(div);
+
      })
 }
+
+// Show More Btn
+
+/* const searchText2 = () =>{
+     let searchText = document.getElementById('searchText').value;
+
+     let url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
+     fetch(url)
+     .then(res => res.json())
+     .then(data => {console.log(data)});
+};
+searchText2();
+//display Show more Result
+
+const displayShowMoreResults = (phones) => {
+     // const showMore = document.getElementById('showMore');
+     console.log(phones);
+
+} */
+
 // Single Phone Detail
 
 const explorerSinglePhoneData =(id)=>{
@@ -46,13 +91,24 @@ const explorerSinglePhoneData =(id)=>{
           .then(data => displayPhoneDetail(data.data))
 }
 const displayPhoneDetail =(phone)=>{
-     // console.log(phone);
+
      const phoneDetail = document.getElementById('phoneDetail');
      phoneDetail.innerText ='';
      const mainFeatures = phone.mainFeatures;
      const sensors = phone.mainFeatures.sensors;
-     // console.log(sensors.join(' , '));
      const others = phone.others;
+
+     if (phone.releaseDate == "") {
+     //    document.getElementById("releaseDate").innerText = "Released Date Not Found!"
+            console.log('not found release date')
+      }
+
+      // showing other features msg if not exist
+     if (typeof phone.others === "undefined") {
+          document.querySelector("#other-fetures-contents").innerHTML =
+          "Oops! currently there is no other features to show.";
+     } 
+
 
      const div = document.createElement('div');
      div.innerHTML= `
@@ -101,17 +157,15 @@ const displayPhoneDetail =(phone)=>{
                          <div class="col-3 bg-light p-2 d-flex align-items-center justify-content-center">
                               <strong>Realese Date :</strong>
                          </div>
-                         <div class="col-9 bg-info d-flex align-items-center"><span class="ms-2"> ${phone.releaseDate}</span>
+                         <div class="col-9 bg-info d-flex align-items-center"><p><span id="releaseDate" class="ms-2 mt-2"> ${phone.releaseDate}</span></p>
                     </div>
                     </li>
                </ul>
           </div>
-
                <div class="border p-1 row mx-auto mt-5">
-                    <h4 class="col-4 col-md-2 d-flex align-items-center">Sensor</h4>
+                    <h6 class="col-4 col-md-2 d-flex align-items-center">Sensor :</h6>
                     <p class="col-8 col-md-10 d-flex align-items-center mt-1">${sensors.join(' , ')}</p>
                </div>
-
      <div class="mt-3">
           <h4>Others Features</h4>
      <table style="width:90%" class="table table-striped mx-auto">
@@ -143,6 +197,24 @@ const displayPhoneDetail =(phone)=>{
     </div>
      `
      phoneDetail.appendChild(div);
-     console.log(others)
-
 }
+
+
+/* 
+// loading spinner
+const spinnerFunc = (spinnerDisplay) => {
+     document.getElementById("spinner-container").style.display = spinnerDisplay;
+ };
+
+ // showing realese msg if not exist
+
+ if (phoneDetails.releaseDate == "") {
+     document.getElementById("releaseDate").innerHTML =
+         "Released Date Not Found!";
+ }
+
+ // showing other features msg if not exist
+ if (typeof phoneDetails.others === "undefined") {
+     document.querySelector("#other-fetures-contents").innerHTML =
+         "Oops! currently there is no other features to show.";
+ } */

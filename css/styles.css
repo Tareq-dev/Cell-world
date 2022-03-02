@@ -1,16 +1,21 @@
 i{
      width:50px;
 }
-.notxt{
-     display:none;
-}
-.section-3{
-     display:block;
-}
 
 table, th, td {
      border: 1px solid black;
      border-collapse: collapse;
      text-align: center;
    }
- 
+   #error {
+     display: none;
+   }
+
+   .spinner-container {
+     position: fixed;
+     top: 50%;
+     left: 44%;
+     display: none;
+     justify-content: center;
+     align-items: center;
+   }
