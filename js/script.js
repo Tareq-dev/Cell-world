@@ -3,18 +3,15 @@
 
 const searchText = () =>{
      document.getElementById('spinner').style.display ='block';
-     let searchText = document.getElementById('searchText').value;
+     const searchText = document.getElementById('searchText').value;
      
-
      //error code 
-
      if (searchText == "") {
           document.getElementById("error").style.display ='block';
           document.getElementById("error").innerHTML =
               "Please write a phone name.";
-      }
-     
-     let url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
+      }else{
+          const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
      fetch(url)
      .then(res => res.json())
      .then(data => {
@@ -22,44 +19,44 @@ const searchText = () =>{
                document.getElementById('spinner').style.display ='block';
                document.getElementById("error").style.display ='block';
                document.getElementById("error").innerHTML =
-              "Please write a phone name.";
+                 "Please write a phone name.";
           }else{
                displaySearchResults(data.data);
              const spinner = document.getElementById('spinner')
-
-               spinner.style.display ='none';
+             spinner.style.display ='none';
+             document.getElementById("error").innerHTML  = "";
           }
      });
-     
      document.getElementById('searchText').value = '';
+      }
+     
 };
 
 //Display Search Results
 
 const displaySearchResults =(phones)=>{
      const resultDetails = document.getElementById('results-details');
+     resultDetails.textContent = "";
      const phoneSliced = phones.slice(0,20);
      phoneSliced.forEach(phone => {
-          // console.log(phone)
           const div = document.createElement('div');
           div.innerHTML = `
           <div class="col">
-               <div class="card h-100">
+               <div class="card h-100 custom-radius shadow-sm">
                    <div class="d-flex justify-content-center">
                          <img style="width:70%;" src="${phone.image}" class="card-img-top p-3" alt="...">
                    </div>
                    <div class="card-body">
-                     <h5 class="card-title">${phone.phone_name}</h5>
+                     <h5 class="card-title"><strong>${phone.phone_name}</strong></h5>
                      <p class="card-text">Brand : ${phone.brand}</p>
-                     <div class="d-flex justify-content-center">
-                     <button class="px-4 py-2 bg-info border-0 rounded-3 fw-bold" onclick=(explorerSinglePhoneData("${phone.slug}"))>Explore</button>
+                     <div class="d-flex justify-content-center mt-3">
+                     <button class="px-2 py-2 bg-yellow border-0 rounded-3 fw-bold" onclick=(explorerSinglePhoneData("${phone.slug}"))><i class="fas fa-info-circle"></i>Explore</button>
                      </div>
                    </div>
                </div>
           </div>
           `
           resultDetails.appendChild(div);
-
      })
 }
 
@@ -98,21 +95,23 @@ const displayPhoneDetail =(phone)=>{
      const sensors = phone.mainFeatures.sensors;
      const others = phone.others;
 
-     if (phone.releaseDate == "") {
+    
+    /*  if (phone.releaseDate == '') {
      //    document.getElementById("releaseDate").innerText = "Released Date Not Found!"
             console.log('not found release date')
       }
 
       // showing other features msg if not exist
      if (typeof phone.others === "undefined") {
-          document.querySelector("#other-fetures-contents").innerHTML =
-          "Oops! currently there is no other features to show.";
-     } 
-
+          console.log('loss')
+          // document.querySelector("#other-fetures-contents").innerHTML =
+          // "Oops! currently there is no other features to show.";
+     }  */
 
      const div = document.createElement('div');
      div.innerHTML= `
-     <h2>${phone.name}</h2> 
+     <div class="border p-3 rounded-3 bg-light">
+     <h2 class="text-bg fw-bold">${phone.name}</h2> 
      <div class="row">
           <div class="col-md-4 d-flex justify-content-center">
                <img class="rounded-3 w-75" src="${phone.image}" alt="">
@@ -124,7 +123,7 @@ const displayPhoneDetail =(phone)=>{
                          <div class="col-2 col-md-1 bg-light p-2 d-flex align-items-center justify-content-center">
                          <i class="fas fa-microchip fs-3"></i>
                          </div>
-                         <div class="col-10 col-md-11 bg-info d-flex align-items-center">
+                         <div class="col-10 col-md-11 bg-yellow d-flex align-items-center">
                          <span class="ms-2"><strong>Chipset :</strong> ${mainFeatures.chipSet}</span>
                          </div>
                     </li>
@@ -133,7 +132,7 @@ const displayPhoneDetail =(phone)=>{
                          <div class="col-2 col-md-1 bg-light p-2 d-flex align-items-center justify-content-center">
                               <i class="fas fa-memory fs-3"></i>
                          </div>
-                         <div class="col-10 col-md-11 bg-info d-flex align-items-center"><span class="ms-2"><strong>Memory :</strong> ${mainFeatures.memory}</span>
+                         <div class="col-10 col-md-11 bg-yellow d-flex align-items-center"><span class="ms-2"><strong>Memory :</strong> ${mainFeatures.memory}</span>
                          </div>
                     </li>
      
@@ -141,7 +140,7 @@ const displayPhoneDetail =(phone)=>{
                          <div class="col-2 col-md-1 bg-light p-2 d-flex align-items-center justify-content-center">
                               <i class="fas fa-hdd fs-3"></i>
                          </div>
-                         <div class="col-10 col-md-11 bg-info d-flex align-items-center"><span class="ms-2"><strong>Storage :</strong> ${mainFeatures.storage}</span>
+                         <div class="col-10 col-md-11 bg-yellow d-flex align-items-center"><span class="ms-2"><strong>Storage :</strong> ${mainFeatures.storage}</span>
                          </div>
                     </li>
      
@@ -149,7 +148,7 @@ const displayPhoneDetail =(phone)=>{
                          <div class="col-2 col-md-1 bg-light p-2 d-flex align-items-center justify-content-center">
                               <i class="fas fa-tv fs-3"></i>
                          </div>
-                         <div class="col-10 col-md-11 bg-info d-flex align-items-center"><span class="ms-2"><strong>Display :</strong> ${mainFeatures.displaySize}</span>
+                         <div class="col-10 col-md-11 bg-yellow d-flex align-items-center"><span class="ms-2"><strong>Display :</strong> ${mainFeatures.displaySize}</span>
                          </div>
                     </li>
      
@@ -157,7 +156,7 @@ const displayPhoneDetail =(phone)=>{
                          <div class="col-3 bg-light p-2 d-flex align-items-center justify-content-center">
                               <strong>Realese Date :</strong>
                          </div>
-                         <div class="col-9 bg-info d-flex align-items-center"><p><span id="releaseDate" class="ms-2 mt-2"> ${phone.releaseDate}</span></p>
+                         <div class="col-9 bg-yellow d-flex align-items-center"><p><span id="releaseDate" class="ms-2 mt-2">${phone.releaseDate? phone.releaseDate:'Realese Date Not Found'} </span></p>
                     </div>
                     </li>
                </ul>
@@ -169,32 +168,33 @@ const displayPhoneDetail =(phone)=>{
      <div class="mt-3">
           <h4>Others Features</h4>
      <table style="width:90%" class="table table-striped mx-auto">
-         <tr>
+         <tr class="bg-yellow">
               <th>Features Name</th>
               <th>Feature</th>
          </tr>
          <tr>
               <td>Bluetooth</td>
-              <td>${others.Bluetooth}</td>
+              <td>${others?.Bluetooth?others.Bluetooth:'No'}</td>
          </tr>
          <tr>
               <td>GPS</td>
-              <td>${others.GPS}</td>
+              <td>${others?.GPS?others.GPS:'No'}</td>
          </tr>
          <tr>
               <td>NFC</td>
-              <td>${others.NFC}</td>
+              <td>${others?.NFC?others.NFC:'No'}</td>
          </tr>
          <tr>
               <td>USB</td>
-              <td>${others.USB}</td>
+              <td>${others?.USB?others.USB:'No'}</td>
          </tr>
          <tr>
               <td>WLAN</td>
-              <td>${others.Radio}</td>
+              <td>${others?.Radio?others.Radio:'No'}</td>
          </tr>
         </table>
     </div>
+</div>
      `
      phoneDetail.appendChild(div);
 }
